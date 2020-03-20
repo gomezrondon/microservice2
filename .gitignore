@@ -1,3 +1,4 @@
 .gradle/
 .idea/
 car-service/lsp/
+spring-gateway/lsp/
