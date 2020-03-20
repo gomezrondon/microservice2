@@ -26,19 +26,10 @@ public class Application {
 		return builder.routes()
 				// no se puede mapear /** de primero porque ignora a las demas direcciones
 				.route("feign-service",r -> r.path("/v2/**")
-						.filters(f -> f.filter(getGatewayFilter()))
+						.filters(f -> f.stripPrefix(1)) // remueve el primer segmento /v2
 						.uri("lb://feign-car-service"))
 				.route("car-jpa-rest",r -> r.path("/**")
 						.uri("lb://car-service"))
 				.build();
 	}
-
-	private GatewayFilter getGatewayFilter() {
-		return (exchange, chain) -> {
-			String newPath = exchange.getRequest().getPath().toString().replace("/v2","");
-			ServerHttpRequest request = exchange.getRequest().mutate().path(newPath).build();
-			return chain.filter(exchange.mutate().request(request).build());
-		};
-	}
-
 }
