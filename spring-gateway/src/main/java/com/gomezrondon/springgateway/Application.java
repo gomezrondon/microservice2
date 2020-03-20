@@ -22,8 +22,11 @@ public class Application {
 	@Bean
 	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
 		return builder.routes()
+				// no se puede mapear /** de primero porque ignora a las demas direcciones
+				.route("feign-service",r -> r.path("/cool-cars")
+						.uri("lb://feign-car-service/cool-cars"))
 				.route("car-jpa-rest",r -> r.path("/**")
-				.uri("lb://car-service"))
+						.uri("lb://car-service"))
 				.build();
 	}
 
