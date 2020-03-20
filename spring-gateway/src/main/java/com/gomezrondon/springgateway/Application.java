@@ -10,10 +10,15 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
 
 @SpringBootApplication
 @EnableEurekaClient
 @EnableCircuitBreaker
+@RestController
 public class Application {
 
 	public static void main(String[] args) {
@@ -29,7 +34,14 @@ public class Application {
 						.filters(f -> f.stripPrefix(1)) // remueve el primer segmento /v2
 						.uri("lb://feign-car-service"))
 				.route("car-jpa-rest",r -> r.path("/**")
+						.filters(f -> f.hystrix(config -> config.setName("fall-service").setFallbackUri("forward:/defaultfallback")))
 						.uri("lb://car-service"))
 				.build();
 	}
+
+	@GetMapping("/defaultfallback")
+	public String fallback() {
+		return "FallBack method "+ LocalDateTime.now().toString();
+	}
+
 }
