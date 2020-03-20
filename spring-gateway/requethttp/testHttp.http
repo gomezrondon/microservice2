@@ -1,0 +1,13 @@
+GET localhost:8080/get
+
+###
+
+# country service, return all countries.
+GET localhost:8080/all
+
+###
+
+# time service
+GET localhost:8080/time
+
+###
