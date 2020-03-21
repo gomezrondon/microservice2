@@ -73,9 +73,23 @@ task checkWin(type:Exec){
 }
 
 
-task jibSetLocalImage(){
-	jib.to.image =project.name+':v1'
+ext {
+    set('gcpProjectName', "ut-265822")
+    set('gcpProjectVersion', "v1")
+	set('localImage', true) 
 }
+ 
+
+task jibSetLocalImage(){
+println ">> ${localImage} <<"
+    if(localImage){
+        jib.to.image =project.name+':v1'
+    }else{
+        jib.to.image = "gcr.io/${gcpProjectName}/${project.name}:${gcpProjectVersion}"
+    }
+	
+}
+
 
 task dockerImage(type:Exec) {
  
@@ -90,6 +104,13 @@ task dockerImage(type:Exec) {
 		commandLine 'bash', '-c', 'gradle -x test jibDockerBuild'
 	}
 }
+
+task pushImageToGCR(type:Exec){
+    dependsOn jibSetLocalImage, dockerImage
+
+    commandLine 'bash', '-c', "docker push ${jib.to.image}"
+}
+
 
 task createTarImage(type:Exec) {
 	dependsOn jibSetLocalImage
