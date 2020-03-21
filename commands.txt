@@ -30,11 +30,7 @@ docker images -a | grep "pepe" | awk '{print $3}' | xargs docker rmi
 //borrar un contenedor
 docker ps -a | grep "pepe" | awk '{print $1}' | xargs docker rm
 
---------- generar las imagesgradle jibDockerBuild --image=eureka-server:v1
-cd car-service \
-gradle eureka \
-cd..
+--------- generar las images 
+gradle loadTarImage   (es todo!!!)
 
-gradle car-service:jibDockerBuild --image=car-service:v1
-gradle jibDockerBuild --image=feign-car-service:v1
-gradle jibDockerBuild --image=gateway-service:v1
+http://192.168.99.100:8080/v2/cool-cars

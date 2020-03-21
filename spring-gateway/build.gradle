@@ -50,6 +50,48 @@ test {
 }
 
 
+import org.apache.tools.ant.taskdefs.condition.Os
+
+task jibSetLocalImage(){
+	jib.to.image =project.name+':v1'
+}
+
 task dockerImage(type:Exec) {
-	commandLine 'cmd', '/c', 'gradle jibDockerBuild --image=gateway-service:v1'
+ 
+	dependsOn jibSetLocalImage
+ 
+	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+		println "*** Windows "
+		commandLine 'cmd', '/c', 'gradle -x test jibDockerBuild'
+	}else 
+	if (Os.isFamily(Os.FAMILY_UNIX)) {
+		println "*** Linux "
+		commandLine 'bash', '-c', 'gradle -x test jibDockerBuild'
+	}
+}
+
+task createTarImage(type:Exec) {
+	dependsOn jibSetLocalImage
+
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        println "*** Windows "
+		commandLine 'cmd', '/c', 'gradle -x test jibbuildTar'
+	}else 
+	if (Os.isFamily(Os.FAMILY_UNIX)) {
+		println "*** Linux "
+		commandLine 'bash', '-c', 'gradle -x test jibbuildTar'
+	}	
+}
+
+task loadTarImage(type:Exec) {
+	dependsOn createTarImage
+
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        println "*** Windows "
+		commandLine 'cmd', '/c', 'docker load --input build/jib-image.tar'
+	}else 
+	if (Os.isFamily(Os.FAMILY_UNIX)) {
+		println "*** Linux "
+		commandLine 'bash', '-c', 'docker load --input build/jib-image.tar'
+	}
 }
