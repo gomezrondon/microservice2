@@ -1,0 +1,21 @@
+version: '2.1'
+
+services:
+  eureka-server:
+    image: eureka-server:v1
+    container_name: eureka-server
+  car-service:
+    image: car-service:v1
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+  feign-car-service:
+    image: feign-car-service:v1
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+  gateway-service:
+    image: gateway-service:v1
+    container_name: gateway-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - 8080:8080

@@ -1,0 +1,40 @@
+//linux
+cd ../..
+
+//Docker
+docker-machine ls
+docker-machine restart default
+#cuando se desconfigura el docker machine, eje: Cannot connect to the Docker daemon
+eval "$(docker-machine env default)"
+
+docker images
+docker ps -a
+docker build -t gomezrondon/spring-config:latest .
+
+docker-compose build
+docker-compose up -d
+docker-compose down
+docker-compose up -d --scale feign-car-service=2 --scale car-service=2
+
+-- remove container
+docker rm <container name>
+docker-compose -f docker-mysql.yml up -d
+docker-compose -f docker-mongo.yml up -d
+docker-compose -f docker-rabbitmq.yml up -d
+--------------------
+// borrar images y forzar
+docker images | grep "none" | awk '{print $3}' | xargs docker rmi -f
+
+//borrar una imagen
+docker images -a | grep "pepe" | awk '{print $3}' | xargs docker rmi
+//borrar un contenedor
+docker ps -a | grep "pepe" | awk '{print $1}' | xargs docker rm
+
+--------- generar las imagesgradle jibDockerBuild --image=eureka-server:v1
+cd car-service \
+gradle eureka \
+cd..
+
+gradle car-service:jibDockerBuild --image=car-service:v1
+gradle jibDockerBuild --image=feign-car-service:v1
+gradle jibDockerBuild --image=gateway-service:v1

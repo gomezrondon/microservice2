@@ -2,7 +2,12 @@ plugins {
 	id 'org.springframework.boot' version '2.2.5.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id 'com.google.cloud.tools.jib' version '1.7.0'
 }
+
+jib.to.image ='gcr.io/PROJECT-ID/gateway-service:v1'
+//gradle jibDockerBuild --image=gateway-service:v1
+
 
 group = 'com.gomezrondon'
 version = '0.0.1-SNAPSHOT'
@@ -42,4 +47,9 @@ dependencyManagement {
 
 test {
 	useJUnitPlatform()
+}
+
+
+task dockerImage(type:Exec) {
+	commandLine 'cmd', '/c', 'gradle jibDockerBuild --image=gateway-service:v1'
 }

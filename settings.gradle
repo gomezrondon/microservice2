@@ -1,0 +1,2 @@
+rootProject.name = 'microservice2'
+include 'car-service', 'eureka-service', 'feign-car-service', 'spring-gateway' 
