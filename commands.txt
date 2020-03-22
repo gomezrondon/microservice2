@@ -34,3 +34,29 @@ docker ps -a | grep "pepe" | awk '{print $1}' | xargs docker rm
 gradle loadTarImage   (es todo!!!)
 
 http://192.168.99.100:8080/v2/cool-cars
+
+------------- kubernetes
+gcloud container clusters get-credentials <CLUSTER-NAME> --zone <ZONE>
+kubectl get pods
+
+kubectl run eureka-service --image=gcr.io/ut-265822/eureka-service:v1 --port 8761
+kubectl run car-service --image=gcr.io/ut-265822/car-service:v1
+kubectl run feign-car-service --image=gcr.io/ut-265822/feign-car-service:v1
+kubectl run spring-gateway --image=gcr.io/ut-265822/spring-gateway:v1 --port 8080
+
+kubectl get deployment
+
+!!!!Asi es que se borra un F. pod/deployment
+kubectl delete deployment spring-gateway
+kubectl delete deployment eureka-service
+kubectl delete deployment feign-car-service
+kubectl delete deployment car-service
+
+kubectl get services
+
+kubectl expose deployment spring-gateway --type=LoadBalancer
+
+kubectl delete service spring-gateway
+
+------------- with config files
+kubectl apply -f k-deployment.yml
