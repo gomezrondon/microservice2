@@ -39,6 +39,8 @@ http://192.168.99.100:8080/v2/cool-cars
 gcloud container clusters get-credentials <CLUSTER-NAME> --zone <ZONE>
 kubectl get pods
 
+kubectl logs <POD-FULL-NAME>
+
 kubectl run eureka-service --image=gcr.io/ut-265822/eureka-service:v1 --port 8761
 kubectl run car-service --image=gcr.io/ut-265822/car-service:v1
 kubectl run feign-car-service --image=gcr.io/ut-265822/feign-car-service:v1
@@ -60,3 +62,5 @@ kubectl delete service spring-gateway
 
 ------------- with config files
 kubectl apply -f k-deployment.yml
+# como destruir el deployment
+kubectl delete -f k-deployment.yml
