@@ -21,6 +21,9 @@ docker rm <container name>
 docker-compose -f docker-mysql.yml up -d
 docker-compose -f docker-mongo.yml up -d
 docker-compose -f docker-rabbitmq.yml up -d
+
+---------------JIB
+gradle -x test jibDockerBuild -Djib.container.environment=spring.profiles.active=docker
 --------------------
 // borrar images y forzar
 docker images | grep "none" | awk '{print $3}' | xargs docker rmi -f
@@ -35,6 +38,8 @@ gradle loadTarImage   (es todo!!!)
 
 http://192.168.99.100:8080/v2/cool-cars
 
+gradle -x test jibDockerBuild -Djib.container.environment=spring.profiles.active=docker
+
 ------------- kubernetes
 gcloud container clusters get-credentials <CLUSTER-NAME> --zone <ZONE>
 kubectl get pods
@@ -46,9 +51,13 @@ kubectl logs -f  <POD-FULL-NAME>  // continue streaming
 https://spring.io/guides/gs/spring-boot-kubernetes/
 kubectl create deployment app-gateway --image=spring-gateway:v1 --dry-run -o=yaml > deployment.yaml
 kubectl create service clusterip app-gateway --tcp=8080:8080 --dry-run -o=yaml >> deployment.yaml
-kubectl apply -f deployment.yaml
-kubectl port-forward svc/app-gateway 8080:8080
-kubectl delete -f deployment.yaml
+kubectl apply -f deploy-app.yaml
+kubectl apply -f app-service.yaml
+kubectl port-forward svc/spring-gateway 8080:8080
+kubectl port-forward svc/car-service 8081:8081
+kubectl port-forward svc/eureka-service 8761:8761
+kubectl delete -f deploy-app.yaml
+kubectl delete -f app-service.yaml
 ------------
 kubectl run eureka-service --image=gcr.io/ut-265822/eureka-service:v1 --port 8761
 kubectl run car-service --image=gcr.io/ut-265822/car-service:v1

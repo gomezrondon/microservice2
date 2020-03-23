@@ -133,3 +133,18 @@ task loadTarImage(type:Exec) {
 		commandLine 'bash', '-c', 'docker load --input build/jib-image.tar'
 	}
 }
+
+task generateK8sYml(type: Exec){
+	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+		println "*** Windows "
+
+		commandLine 'cmd', '/c', "kubectl create deployment ${project.name} --image=${project.name}:v1 --dry-run -o=yaml > deploy-app.yaml"
+		commandLine 'cmd', '/c', "kubectl create service clusterip ${project.name} --tcp=8080:8080 --dry-run -o=yaml > app-service.yaml"
+
+	}else
+	if (Os.isFamily(Os.FAMILY_UNIX)) {
+		println "*** Linux "
+		commandLine 'bash', '-c', 'docker load --input build/jib-image.tar'
+	}
+}
+

@@ -1,7 +1,7 @@
 version: '2.1'
 
 services:
-  eureka-server:
+  eureka-service:
     image: gcr.io/ut-265822/eureka-service:v1
     container_name: eureka-server
   car-service:
