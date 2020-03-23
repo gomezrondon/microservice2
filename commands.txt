@@ -40,7 +40,16 @@ gcloud container clusters get-credentials <CLUSTER-NAME> --zone <ZONE>
 kubectl get pods
 
 kubectl logs <POD-FULL-NAME>
+kubectl logs -f  <POD-FULL-NAME>  // continue streaming
 
+-------------
+https://spring.io/guides/gs/spring-boot-kubernetes/
+kubectl create deployment app-gateway --image=spring-gateway:v1 --dry-run -o=yaml > deployment.yaml
+kubectl create service clusterip app-gateway --tcp=8080:8080 --dry-run -o=yaml >> deployment.yaml
+kubectl apply -f deployment.yaml
+kubectl port-forward svc/app-gateway 8080:8080
+kubectl delete -f deployment.yaml
+------------
 kubectl run eureka-service --image=gcr.io/ut-265822/eureka-service:v1 --port 8761
 kubectl run car-service --image=gcr.io/ut-265822/car-service:v1
 kubectl run feign-car-service --image=gcr.io/ut-265822/feign-car-service:v1
