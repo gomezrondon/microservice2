@@ -1,13 +1,12 @@
 apiVersion: skaffold/v1
 kind: Config
 metadata:
-  name: my-skaffold
+  name: my-skaffold-car-service
 build:
   artifacts:
-    - image: spring-gateway
+    - image: car-service
       jib: {}
   local: {}
-
 
 deploy:
   kubectl:

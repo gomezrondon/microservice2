@@ -4,10 +4,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -18,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 @SpringBootApplication
-@EnableEurekaClient
+@EnableDiscoveryClient
 @EnableCircuitBreaker
 @RestController
-@EnableScheduling
+//@EnableScheduling
 public class Application {
 
-	@Value("${message:Whow are YOU???}")
+	@Value("${message:Who are YOU???}")
 	private String message;
 
 	public static void main(String[] args) {
@@ -41,7 +42,7 @@ public class Application {
 						.uri("lb://feign-car-service"))
 				.route("car-jpa-rest", r -> r.path("/**")
 						.filters(f -> f.hystrix(config -> config.setName("fall-service").setFallbackUri("forward:/defaultfallback")))
-						.uri("lb://car-service"))
+						.uri("http://car-service:8081"))
 				.build();
 	}
 

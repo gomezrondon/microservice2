@@ -18,7 +18,22 @@ spec:
         app: spring-gateway
     spec:
       containers:
-      - image: spring-gateway:v1
+      - image: spring-gateway
         name: spring-gateway
+        ports:
+          - containerPort: 8080
         resources: {}
 status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-gateway
+spec:
+  selector:
+    app: spring-gateway
+  ports:
+    - port: 8080
+      protocol: TCP
+      nodePort: 30085
+  type: NodePort

@@ -18,7 +18,23 @@ spec:
         app: car-service
     spec:
       containers:
-      - image: car-service:v1
+      - image: car-service
         name: car-service
+        ports:
+          - containerPort: 8081
         resources: {}
 status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: car-service
+spec:
+  selector:
+    app: car-service
+  ports:
+    - port: 8081
+      protocol: TCP
+      nodePort: 30084
+  type: NodePort
