@@ -4,6 +4,7 @@ metadata:
   name: my-skaffold
 build:
   artifacts:
-    - image: spring-gateway
+    - image: gcr.io/PROJECT-ID/spring-gateway
       jib: {}
-  local: {}
+  googleCloudBuild:
+    projectId: PROJECT-ID
