@@ -1,0 +1,9 @@
+apiVersion: skaffold/v1
+kind: Config
+metadata:
+  name: my-skaffold
+build:
+  artifacts:
+    - image: spring-gateway
+      jib: {}
+  local: {}
