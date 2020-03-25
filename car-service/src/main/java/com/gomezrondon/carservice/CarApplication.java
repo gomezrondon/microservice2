@@ -19,10 +19,10 @@ import java.util.stream.Stream;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class Application {
+public class CarApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(CarApplication.class, args);
 	}
 
 	@Bean

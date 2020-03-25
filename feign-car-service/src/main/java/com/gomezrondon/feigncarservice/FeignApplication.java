@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 @EnableEurekaClient
 @EnableFeignClients
 @EnableCircuitBreaker
-public class Application {
+public class FeignApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(FeignApplication.class, args);
 	}
 
 }
