@@ -45,7 +45,12 @@ gcloud container clusters get-credentials <CLUSTER-NAME> --zone <ZONE>
 kubectl get pods
 
 kubectl logs <POD-FULL-NAME>
-kubectl logs -f  <POD-FULL-NAME>  // continue streaming
+kubectl logs -f <POD-FULL-NAME>  // continue streaming
+
+kubectl get pod -w   // watch the pods
+
+gradle skaRun                   //deploy all services
+gradle skaRun -Pcommand=delete  //destroy all service
 
 -------------
 https://spring.io/guides/gs/spring-boot-kubernetes/
@@ -55,6 +60,7 @@ kubectl apply -f deploy-app.yaml
 kubectl apply -f app-service.yaml
 kubectl port-forward svc/spring-gateway 8080:8080
 kubectl port-forward svc/car-service 8081:8081
+kubectl port-forward svc/feign-car-service 8082:8082
 kubectl port-forward svc/eureka-service 8761:8761
 kubectl delete -f deploy-app.yaml
 kubectl delete -f app-service.yaml

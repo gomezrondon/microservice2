@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: feign-car-service
+  name: feign-car-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feign-car-service
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: feign-car-service
+    spec:
+      containers:
+      - image: feign-car-service
+        name: feign-car-service
+        ports:
+          - containerPort: 8082
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: feign-car-service
+spec:
+  selector:
+    app: feign-car-service
+  ports:
+    - port: 8082
+      protocol: TCP
+      nodePort: 30086
+  type: NodePort

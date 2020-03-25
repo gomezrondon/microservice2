@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -18,7 +19,8 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @SpringBootApplication
-@EnableEurekaClient
+//@EnableEurekaClient
+@EnableDiscoveryClient
 @EnableFeignClients
 @EnableCircuitBreaker
 public class Application {
@@ -68,7 +70,7 @@ class Car {
 	private String name;
 }
 
-@FeignClient("car-service")
+@FeignClient(url = "http://car-service:8081", name = "car-service")
 interface CarClient {
 	@GetMapping("/cars")
 	@CrossOrigin

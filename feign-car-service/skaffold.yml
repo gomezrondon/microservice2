@@ -1,0 +1,15 @@
+apiVersion: skaffold/v1
+kind: Config
+metadata:
+  name: my-skaffold
+build:
+  artifacts:
+    - image: feign-car-service
+      jib: {}
+  local: {}
+
+
+deploy:
+  kubectl:
+    manifests:
+      - deploy-app.yaml

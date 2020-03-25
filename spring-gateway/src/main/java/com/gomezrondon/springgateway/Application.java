@@ -39,7 +39,7 @@ public class Application {
 				// no se puede mapear /** de primero porque ignora a las demas direcciones
 				.route("feign-service", r -> r.path("/v2/**")
 						.filters(f -> f.stripPrefix(1)) // remueve el primer segmento /v2
-						.uri("lb://feign-car-service"))
+						.uri("http://feign-car-service:8082"))
 				.route("car-jpa-rest", r -> r.path("/**")
 						.filters(f -> f.hystrix(config -> config.setName("fall-service").setFallbackUri("forward:/defaultfallback")))
 						.uri("http://car-service:8081"))
