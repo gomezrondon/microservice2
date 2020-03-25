@@ -148,3 +148,18 @@ task generateK8sYml(type: Exec){
 	}
 }
 
+ext {
+	command = project.hasProperty('command') ? project.property('command') : 'run'
+	//gradle skaRun -Pcommand=run
+}
+
+task skaRun(type:Exec) {
+	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+		println "*** Windows "
+		commandLine 'cmd', '/c', 'skaffold ' + command
+	}else
+	if (Os.isFamily(Os.FAMILY_UNIX)) {
+		println "*** Linux "
+		commandLine 'bash', '-c', 'skaffold ' + command
+	}
+}
