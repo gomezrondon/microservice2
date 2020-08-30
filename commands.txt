@@ -34,3 +34,5 @@ docker ps -a | grep "pepe" | awk '{print $1}' | xargs docker rm
 gradle loadTarImage   (es todo!!!)
 
 http://192.168.99.100:8080/v2/cool-cars
+---------- spring boot 2.3 with leyering
+1) generate the image: gradle clean bootBuildImage

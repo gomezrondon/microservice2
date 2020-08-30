@@ -1,6 +1,6 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.5.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'org.springframework.boot' version '2.3.3.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
 	id 'com.google.cloud.tools.jib' version '1.7.0'
 }
@@ -28,8 +28,9 @@ repositories {
 }
 
 ext {
-	set('springCloudVersion', "Hoxton.SR3")
+	set('springCloudVersion', "Hoxton.SR8")
 }
+
 
 dependencies {
 	//testCompile group: 'io.dekorate', name: 'kubernetes-spring-starter', version: '0.11.3'
@@ -59,6 +60,12 @@ dependencyManagement {
 test {
 	useJUnitPlatform()
 }
+
+//gradle clean bootBuildImage
+bootJar{
+	layered()
+}
+
 
 import org.apache.tools.ant.taskdefs.condition.Os
 
