@@ -2,11 +2,11 @@ apiVersion: skaffold/v1
 kind: Config
 metadata:
   name: my-skaffold
-build:
-  artifacts:
-    - image: feign-car-service
-      jib: {}
-  local: {}
+#build:
+#  artifacts:
+#    - image: feign-car-service
+#      jib: {}
+#  local: {}
 
 
 deploy:

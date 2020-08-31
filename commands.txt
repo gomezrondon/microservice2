@@ -52,6 +52,11 @@ https://cloud.google.com/container-registry/docs/pushing-and-pulling
 gcloud auth configure-docker
 3.2) we push to registry
 docker push gcr.io/ut-265822/car-service:v1
+4) execute on each service:
+gradle skaRun -Pcommand=deploy
+5) we check the results:
+kubectl get deployment
+
 ---- pre requisitos
 intallar skaffold
 activar kubernetes
@@ -64,6 +69,7 @@ kubectl logs -f <POD-FULL-NAME>  // continue streaming
 
 kubectl get pod -w   // watch the pods
 
+kubectl logs -f spring-gateway-686c76fccc-gbqlp
 
 ----------- skaffold
 skaffold build // para contruir la imagen
@@ -71,7 +77,8 @@ skaffold deploy  // deploya
 
 gradle skaRun                   //deploy all services
 gradle skaRun -Pcommand=delete  //destroy all service
-
+gradle skaRun -Pcommand=deploy
+kubectl get deployment
 -------------
 https://spring.io/guides/gs/spring-boot-kubernetes/
 kubectl create deployment app-gateway --image=spring-gateway:v1 --dry-run -o=yaml > deployment.yaml
@@ -92,7 +99,7 @@ kubectl run spring-gateway --image=gcr.io/ut-265822/spring-gateway:v1 --port 808
 
 kubectl get deployment
 
-!!!!Asi es que se borra un F. pod/deployment
+------------!!!!Asi es que se borra un F. pod/deployment
 kubectl delete deployment spring-gateway
 kubectl delete deployment eureka-service
 kubectl delete deployment feign-car-service

@@ -85,3 +85,20 @@ task generateK8sYml(type: Exec){
 	commandLine 'cmd', '/c', "kubectl create service clusterip ${project.name} --tcp=8761:8761 --dry-run -o=yaml > app-service.yaml"
 
 }
+
+
+ext {
+	command = project.hasProperty('command') ? project.property('command') : 'run'
+	//gradle skaRun -Pcommand=run
+}
+
+task skaRun(type:Exec) {
+	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+		println "*** Windows "
+		commandLine 'cmd', '/c', 'skaffold ' + command
+	}else
+	if (Os.isFamily(Os.FAMILY_UNIX)) {
+		println "*** Linux "
+		commandLine 'bash', '-c', 'skaffold ' + command
+	}
+}

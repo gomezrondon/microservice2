@@ -1,0 +1,14 @@
+apiVersion: skaffold/v1
+kind: Config
+metadata:
+  name: my-skaffold-eureka-service
+#build:
+#  artifacts:
+#    - image: gcr.io/ut-265822/car-service
+#      custom:
+#        buildCommand: gradle bootBuildImage
+
+deploy:
+  kubectl:
+    manifests:
+      - deploy-app.yaml

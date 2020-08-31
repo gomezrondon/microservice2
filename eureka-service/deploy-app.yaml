@@ -18,7 +18,23 @@ spec:
         app: eureka-service
     spec:
       containers:
-      - image: eureka-service:v1
+      - image: gcr.io/ut-265822/eureka-service:v1
         name: eureka-service
+        ports:
+          - containerPort: 8761
         resources: {}
 status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka-service
+spec:
+  selector:
+    app: eureka-service
+  ports:
+    - port: 8761
+      protocol: TCP
+      nodePort: 30089
+  type: NodePort

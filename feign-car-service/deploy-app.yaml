@@ -18,7 +18,7 @@ spec:
         app: feign-car-service
     spec:
       containers:
-      - image: feign-car-service
+      - image: gcr.io/ut-265822/feign-car-service:v1
         name: feign-car-service
         ports:
           - containerPort: 8082

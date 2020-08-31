@@ -18,7 +18,7 @@ spec:
         app: spring-gateway
     spec:
       containers:
-      - image: spring-gateway
+      - image: gcr.io/ut-265822/spring-gateway:v1
         name: spring-gateway
         ports:
           - containerPort: 8080
