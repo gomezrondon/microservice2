@@ -24,6 +24,7 @@ docker-compose -f docker-rabbitmq.yml up -d
 
 ---------------JIB
 gradle -x test jibDockerBuild -Djib.container.environment=spring.profiles.active=docker
+gradlew bootBuildImage --imageName=springio/gs-spring-boot-docker
 --------------------
 // borrar images y forzar
 docker images | grep "none" | awk '{print $3}' | xargs docker rmi -f
@@ -40,7 +41,21 @@ http://192.168.99.100:8080/v2/cool-cars
 
 gradle -x test jibDockerBuild -Djib.container.environment=spring.profiles.active=docker
 
-------------- kubernetes
+------------- spring boot 2.3
+1) crear images:
+gradle clean bootBuildImage
+2) to run docker compose:
+docker-compose up -d
+3) how to push to gcp registry:
+https://cloud.google.com/container-registry/docs/pushing-and-pulling
+3.1) from time to time it ask for credentials
+gcloud auth configure-docker
+3.2) we push to registry
+docker push gcr.io/ut-265822/car-service:v1
+---- pre requisitos
+intallar skaffold
+activar kubernetes
+------------- kubernetes in GCP
 gcloud container clusters get-credentials <CLUSTER-NAME> --zone <ZONE>
 kubectl get pods
 
@@ -48,6 +63,11 @@ kubectl logs <POD-FULL-NAME>
 kubectl logs -f <POD-FULL-NAME>  // continue streaming
 
 kubectl get pod -w   // watch the pods
+
+
+----------- skaffold
+skaffold build // para contruir la imagen
+skaffold deploy  // deploya
 
 gradle skaRun                   //deploy all services
 gradle skaRun -Pcommand=delete  //destroy all service

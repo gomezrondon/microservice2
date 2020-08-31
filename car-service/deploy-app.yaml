@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: car-service
   name: car-service
@@ -13,17 +12,16 @@ spec:
   strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: car-service
     spec:
       containers:
-      - image: car-service
+      - image: gcr.io/ut-265822/car-service:v1
         name: car-service
         ports:
           - containerPort: 8081
         resources: {}
-status: {}
+
 
 ---
 apiVersion: v1

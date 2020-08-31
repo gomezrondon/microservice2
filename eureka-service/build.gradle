@@ -1,6 +1,6 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.5.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'org.springframework.boot' version '2.3.3.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
 	id 'com.google.cloud.tools.jib' version '1.7.0'
 }
@@ -17,7 +17,7 @@ repositories {
 }
 
 ext {
-	set('springCloudVersion', "Hoxton.SR3")
+	set('springCloudVersion', "Hoxton.SR8")
 }
 
 dependencies {
@@ -38,6 +38,12 @@ test {
 }
 
 
+//gradle clean bootBuildImage
+bootJar{
+	layered()
+}
+
+
 import org.apache.tools.ant.taskdefs.condition.Os
 
 task checkWin(type:Exec){
@@ -51,80 +57,31 @@ task checkWin(type:Exec){
 }
 
 ext {
-    set('gcpProjectName', "ut-265822")
-    set('gcpProjectVersion', "v1")
-	set('localImage', true) 
-}
- 
-
-task jibSetLocalImage(){
-println ">> ${localImage} <<"
-    if(localImage){
-        jib.to.image =project.name+':v1'
-    }else{
-        jib.to.image = "gcr.io/${gcpProjectName}/${project.name}:${gcpProjectVersion}"
-    }
-	
+	set('gcpProjectName', "ut-265822")
+	set('gcpProjectVersion', "v1")
 }
 
-
-task dockerImage(type:Exec) {
- 
-	dependsOn jibSetLocalImage
- 
-	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-		println "*** Windows "
-		commandLine 'cmd', '/c', 'gradle -x test jibDockerBuild'
-	}else 
-	if (Os.isFamily(Os.FAMILY_UNIX)) {
-		println "*** Linux "
-		commandLine 'bash', '-c', 'gradle -x test jibDockerBuild'
-	}
+bootBuildImage {
+	imageName = "gcr.io/${gcpProjectName}/${project.name}:${gcpProjectVersion}"
 }
+
 
 task pushImageToGCR(type:Exec){
-    dependsOn jibSetLocalImage, dockerImage
-
-    commandLine 'bash', '-c', "docker push ${jib.to.image}"
-}
-
-
-task createTarImage(type:Exec) {
-	dependsOn jibSetLocalImage
-
-    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-        println "*** Windows "
-		commandLine 'cmd', '/c', 'gradle -x test jibbuildTar'
-	}else 
-	if (Os.isFamily(Os.FAMILY_UNIX)) {
-		println "*** Linux "
-		commandLine 'bash', '-c', 'gradle -x test jibbuildTar'
-	}	
-}
-
-task loadTarImage(type:Exec) {
-	dependsOn createTarImage
-
-    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-        println "*** Windows "
-		commandLine 'cmd', '/c', 'docker load --input build/jib-image.tar'
-	}else 
-	if (Os.isFamily(Os.FAMILY_UNIX)) {
-		println "*** Linux "
-		commandLine 'bash', '-c', 'docker load --input build/jib-image.tar'
-	}
-}
-
-task generateK8sYml(type: Exec){
+	dependsOn bootBuildImage
 	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-		println "*** Windows "
-
-		commandLine 'cmd', '/c', "kubectl create deployment ${project.name} --image=${project.name}:v1 --dry-run -o=yaml > deploy-app.yaml"
-		commandLine 'cmd', '/c', "kubectl create service clusterip ${project.name} --tcp=8761:8761 --dry-run -o=yaml > app-service.yaml"
-
+		commandLine 'bash', '-c', "docker push ${bootBuildImage.imageName}"
 	}else
 	if (Os.isFamily(Os.FAMILY_UNIX)) {
 		println "*** Linux "
-		commandLine 'bash', '-c', 'docker load --input build/jib-image.tar'
+		commandLine 'bash', '-c', 'docker push ${bootBuildImage.imageName}'
 	}
+}
+
+
+
+task generateK8sYml(type: Exec){
+
+	commandLine 'cmd', '/c', "kubectl create deployment ${project.name} --image=${bootBuildImage.imageName} --dry-run -o=yaml > deploy-app.yaml"
+	commandLine 'cmd', '/c', "kubectl create service clusterip ${project.name} --tcp=8761:8761 --dry-run -o=yaml > app-service.yaml"
+
 }

@@ -2,11 +2,11 @@ apiVersion: skaffold/v1
 kind: Config
 metadata:
   name: my-skaffold-car-service
-build:
-  artifacts:
-    - image: car-service
-      jib: {}
-  local: {}
+#build:
+#  artifacts:
+#    - image: gcr.io/ut-265822/car-service
+#      custom:
+#        buildCommand: gradle bootBuildImage
 
 deploy:
   kubectl:
