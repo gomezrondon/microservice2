@@ -70,7 +70,7 @@ kubectl logs -f <POD-FULL-NAME>  // continue streaming
 
 kubectl get pod -w   // watch the pods
 
-kubectl logs -f car-service-f4bc7c4d4-xbkng
+kubectl logs -f car-service-578b7fb6c6-btd4g
 
 ----------- skaffold
 skaffold build // para contruir la imagen

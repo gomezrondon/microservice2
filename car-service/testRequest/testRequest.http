@@ -1,0 +1,6 @@
+### GET request with a header
+GET http://localhost:8081/car-service/time
+
+### health check
+
+GET http://localhost:8081/actuator/health
