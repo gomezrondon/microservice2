@@ -54,6 +54,7 @@ gcloud auth configure-docker
 docker push gcr.io/ut-265822/car-service:v1
 4) execute on each service:
 gradle skaRun -Pcommand=deploy
+gradle skaRun -Pcommand=delete
 5) we check the results:
 kubectl get deployment
 
@@ -69,7 +70,7 @@ kubectl logs -f <POD-FULL-NAME>  // continue streaming
 
 kubectl get pod -w   // watch the pods
 
-kubectl logs -f spring-gateway-686c76fccc-gbqlp
+kubectl logs -f car-service-f4bc7c4d4-xbkng
 
 ----------- skaffold
 skaffold build // para contruir la imagen
