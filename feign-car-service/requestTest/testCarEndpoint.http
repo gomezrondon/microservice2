@@ -1,9 +1,24 @@
 
+### /cool-cars calls the endpoint /cars of car-service
 
-GET http://localhost:8080/cool-cars
+http://localhost:8082/cool-cars
+
+### /feign/time calls the endpoint /car-service/time of car-service
+#http://localhost:30084/car-service/time | funciona en kubernetes
+#http://localhost:30084/cars | funciona en kubernetes
+#http://localhost:30086/feign/time | funciona en kubernetes
+http://localhost:8082/feign/time
 
 ###
 
-GET http://localhost:8090/cars
+http://localhost:30086/service-instances/car-service
+
+###
+
+http://localhost:8082/service-instances/feign-car-service
+
+###
+
+http://localhost:8082/service-instances/gateway-service
 
 ###

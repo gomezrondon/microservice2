@@ -6,6 +6,7 @@ import lombok.NonNull;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -44,24 +45,4 @@ public class Application {
 		};
 	}
 
-}
-
-@Data
-@NoArgsConstructor
-@Entity
-class Car {
-	@Id
-	@GeneratedValue
-	private Long id;
-	@NonNull
-	private String name;
-
-	public Car(String name) {
-		this.name = name;
-	}
-
-}
-
-@RepositoryRestResource
-interface CarRepository extends JpaRepository<Car, Long> {
 }

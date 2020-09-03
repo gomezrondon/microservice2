@@ -2,7 +2,13 @@ spring:
   cloud:
     kubernetes:
       enabled: true
+    loadbalancer:
+      ribbon:
+        enabled: false
 
 eureka:
   client:
     enabled: false
+
+
+

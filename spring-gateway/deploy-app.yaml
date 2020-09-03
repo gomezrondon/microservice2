@@ -20,6 +20,7 @@ spec:
       containers:
       - image: gcr.io/ut-265822/spring-gateway:v1
         name: spring-gateway
+        imagePullPolicy: Never
         ports:
           - containerPort: 8080
         resources: {}

@@ -20,9 +20,20 @@ spec:
       containers:
       - image: gcr.io/ut-265822/feign-car-service:v1
         name: feign-car-service
+        imagePullPolicy: Never
         ports:
           - containerPort: 8082
-        resources: {}
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8082
+          initialDelaySeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8082
+          initialDelaySeconds: 10
+      restartPolicy: Always
 status: {}
 ---
 apiVersion: v1
@@ -34,6 +45,7 @@ spec:
     app: feign-car-service
   ports:
     - port: 8082
+      targetPort: 8082
       protocol: TCP
       nodePort: 30086
   type: NodePort

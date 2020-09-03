@@ -8,10 +8,14 @@ services:
     image: gcr.io/ut-265822/car-service:v1
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - 8081:8081
   feign-car-service:
     image: gcr.io/ut-265822/feign-car-service:v1
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - 8082:8082
   gateway-service:
     image: gcr.io/ut-265822/spring-gateway:v1
     container_name: gateway-service

@@ -18,17 +18,18 @@ spec:
       containers:
       - image: gcr.io/ut-265822/car-service:v1
         name: car-service
+        imagePullPolicy: Never
         ports:
           - containerPort: 8081
         readinessProbe:
           httpGet:
             path: /actuator/health
-            port: 8080
+            port: 8081
           initialDelaySeconds: 10
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8080
+            port: 8081
           initialDelaySeconds: 10
       restartPolicy: Always
 

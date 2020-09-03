@@ -20,6 +20,7 @@ spec:
       containers:
       - image: gcr.io/ut-265822/eureka-service:v1
         name: eureka-service
+        imagePullPolicy: Never
         ports:
           - containerPort: 8761
         resources: {}
