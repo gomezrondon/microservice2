@@ -93,7 +93,7 @@ task pushImageToGCR(type:Exec){
 }
 
 ext {
-	command = project.hasProperty('command') ? project.property('command') : 'run'
+	command = project.hasProperty('command') ? project.property('command') : 'deploy'
 	//gradle skaRun -Pcommand=run
 }
 
@@ -106,4 +106,9 @@ task skaRun(type:Exec) {
 		println "*** Linux "
 		commandLine 'bash', '-c', 'skaffold ' + command
 	}
+}
+
+task buildAndDeploy(){
+	command = "deploy"
+	dependsOn bootBuildImage, skaRun
 }

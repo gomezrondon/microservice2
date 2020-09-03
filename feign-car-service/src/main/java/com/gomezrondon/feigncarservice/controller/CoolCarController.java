@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -53,11 +54,20 @@ public class CoolCarController {
     "secure": false,
 */
 
-        String url = "http://car-service:8081/car-service/time";
-        ResponseEntity<String> forEntity = restTemplate.getForEntity(url, String.class);
+        List<ServiceInstance> instances = this.discoveryClient.getInstances("car-service");
+        ServiceInstance instance = instances.stream().findFirst().orElse(null);
+        if (instance != null) {
+            URI uri = instance.getUri();
+            String url ="".concat(String.valueOf(uri)).concat("/car-service/time");
+            System.out.println("url is>> "+url);
 
-        System.out.println(forEntity.getBody());
-        return forEntity.getBody();
+            ResponseEntity<String> forEntity = restTemplate.getForEntity(url, String.class);
+
+            System.out.println(forEntity.getBody());
+            return forEntity.getBody();
+        }
+
+        return "";
     }
 
     @RequestMapping("/service-instances/{applicationName}")

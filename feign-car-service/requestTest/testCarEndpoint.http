@@ -7,7 +7,7 @@ http://localhost:8082/cool-cars
 #http://localhost:30084/car-service/time | funciona en kubernetes
 #http://localhost:30084/cars | funciona en kubernetes
 #http://localhost:30086/feign/time | funciona en kubernetes
-http://localhost:8082/feign/time
+http://localhost:30086/feign/time
 
 ###
 
