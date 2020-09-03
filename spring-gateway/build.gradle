@@ -115,3 +115,9 @@ task skaRun(type:Exec) {
 		commandLine 'bash', '-c', 'skaffold ' + command
 	}
 }
+
+
+task buildAndDeploy(){
+	command = "deploy"
+	dependsOn bootBuildImage, skaRun
+}

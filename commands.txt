@@ -41,6 +41,15 @@ http://192.168.99.100:8080/v2/cool-cars
 
 gradle -x test jibDockerBuild -Djib.container.environment=spring.profiles.active=docker
 
+-------------- git commands
+* get current branch
+git branch
+* discard changes
+git checkout -- .
+* pull new changes
+git pull
+
+
 ------------- spring boot 2.3
 1) crear images:
 gradle clean bootBuildImage

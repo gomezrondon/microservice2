@@ -125,3 +125,7 @@ task skaRun(type:Exec) {
 	}
 }
 
+task buildAndDeploy(){
+	command = "deploy"
+	dependsOn bootBuildImage, skaRun
+}
