@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert --file docker-compose.yml -o k8s
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: feign-car-service
+  name: feign-car-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: feign-car-service
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert --file docker-compose.yml -o k8s
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: feign-car-service
+    spec:
+      containers:
+      - env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: docker
+        image: gcr.io/ut-265822/feign-car-service:v1
+        imagePullPolicy: ""
+        name: feign-car-service
+        ports:
+        - containerPort: 8082
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}
