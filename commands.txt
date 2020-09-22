@@ -51,7 +51,8 @@ git pull
 
 ------------ using Kompose (solo conversion 1, 2 o 3 NO 2.1)
 kompose convert --file docker-compose.yml -o k8s
-
+## cleaning yaml file script
+jbang --cp=./script script/jscript.java ./k8s
 ------------- spring boot 2.3
 1) crear images:
 gradle clean bootBuildImage
