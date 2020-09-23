@@ -18,7 +18,7 @@ spec:
       containers:
       - env:
         - name: SPRING_PROFILES_ACTIVE
-          value: docker
+          value: kubernetes
         image: gcr.io/ut-265822/car-service:v1
         imagePullPolicy: Never
         name: car-service

@@ -49,10 +49,16 @@ git checkout -- .
 * pull new changes
 git pull
 
+---- pre requisitos
+intallar skaffold
+activar kubernetes
 ------------ using Kompose (solo conversion 1, 2 o 3 NO 2.1)
 kompose convert --file docker-compose.yml -o k8s
 ## cleaning yaml file script
 jbang --cp=./script script/jscript.java ./k8s
+---------------
+#I remove the eureka discovery service,
+it is not necesary in kubernetes (it has its own)
 ------------- spring boot 2.3
 1) crear images:
 gradle clean bootBuildImage
@@ -65,14 +71,15 @@ gcloud auth configure-docker
 3.2) we push to registry
 docker push gcr.io/ut-265822/car-service:v1
 4) execute on each service:
-gradle skaRun -Pcommand=deploy
-gradle skaRun -Pcommand=delete
+in root of proyect
+#to deploy in kubernetes
+\microservice2>skaffold deploy
+#to destroy in kubernetes
+\microservice2>skaffold delete
 5) we check the results:
 kubectl get deployment
 
----- pre requisitos
-intallar skaffold
-activar kubernetes
+
 ------------- kubernetes in GCP
 gcloud container clusters get-credentials <CLUSTER-NAME> --zone <ZONE>
 kubectl get pods
@@ -81,13 +88,13 @@ kubectl logs <POD-FULL-NAME>
 kubectl logs -f <POD-FULL-NAME>  // continue streaming
 
 kubectl get pod -w   // watch the pods
-
-kubectl logs -f feign-car-service-6db5c5cfb7-hhv9z
+kubectl get services
+kubectl logs -f feign-car-service-5b4bc4b864-smgmf
 
 ----------- skaffold
 skaffold build // para contruir la imagen
 skaffold deploy  // deploya
-
+skaffold delete
 gradle skaRun                   //deploy all services
 gradle skaRun -Pcommand=delete  //destroy all service
 gradle skaRun -Pcommand=deploy
@@ -98,6 +105,12 @@ kubectl create deployment app-gateway --image=spring-gateway:v1 --dry-run -o=yam
 kubectl create service clusterip app-gateway --tcp=8080:8080 --dry-run -o=yaml >> deployment.yaml
 kubectl apply -f deploy-app.yaml
 kubectl apply -f app-service.yaml
+
+kubectl apply -f k-deployment.yaml
+kubectl delete -f k-deployment.yaml
+skaffold init -k ./k8s/*.yaml --skip-build
+
+
 kubectl port-forward svc/spring-gateway 8080:8080
 kubectl port-forward svc/car-service 8081:8081
 kubectl port-forward svc/feign-car-service 8082:8082

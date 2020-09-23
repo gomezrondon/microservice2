@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
       - env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: docker
+          - name: SPRING_PROFILES_ACTIVE
+            value: kubernetes
         image: gcr.io/ut-265822/spring-gateway:v1
         imagePullPolicy: Never
         name: gateway-service
