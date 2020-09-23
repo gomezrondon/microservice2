@@ -89,7 +89,7 @@ kubectl logs -f <POD-FULL-NAME>  // continue streaming
 
 kubectl get pod -w   // watch the pods
 kubectl get services
-kubectl logs -f feign-car-service-5b4bc4b864-smgmf
+kubectl logs -f gateway-service-f856f5c47-bxxbv
 
 ----------- skaffold
 skaffold build // para contruir la imagen

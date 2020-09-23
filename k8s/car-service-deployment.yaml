@@ -24,6 +24,16 @@ spec:
         name: car-service
         ports:
         - containerPort: 8081
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8081
+          initialDelaySeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8081
+          initialDelaySeconds: 10
         resources: {}
       restartPolicy: Always
 status: {}

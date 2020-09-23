@@ -4,4 +4,8 @@ GET localhost:8080/cars
 
 GET localhost:8080/v2/cool-cars
 
-###
+
+
+### liveness endpoint
+
+GET localhost:8080/actuator/health

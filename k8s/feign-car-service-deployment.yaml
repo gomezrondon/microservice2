@@ -24,6 +24,16 @@ spec:
         name: feign-car-service
         ports:
         - containerPort: 8082
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8082
+          initialDelaySeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8082
+          initialDelaySeconds: 10
         resources: {}
       restartPolicy: Always
 status: {}
