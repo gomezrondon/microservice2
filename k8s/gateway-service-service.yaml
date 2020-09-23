@@ -5,6 +5,7 @@ metadata:
     app: gateway-service
   name: gateway-service
 spec:
+  type: LoadBalancer
   ports:
   - name: "8080"
     port: 8080
