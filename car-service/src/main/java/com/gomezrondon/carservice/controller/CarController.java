@@ -3,6 +3,8 @@ package com.gomezrondon.carservice.controller;
 
 import com.gomezrondon.carservice.entities.Car;
 import com.gomezrondon.carservice.repositories.CarRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +23,10 @@ public class CarController {
 
 
     @GetMapping("/cars")
-    public List<Car> getAllCars() {
-        return repository.findAll();
+    public ResponseEntity<List<Car>> getAllCars() {
+        List<Car> list = repository.findAll();
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
 }
