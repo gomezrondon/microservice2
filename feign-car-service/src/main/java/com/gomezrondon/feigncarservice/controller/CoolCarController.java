@@ -3,6 +3,7 @@ package com.gomezrondon.feigncarservice.controller;
 
 import com.gomezrondon.feigncarservice.entities.Car;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,11 @@ import java.util.stream.Collectors;
 @RestController
 public class CoolCarController {
 
+    private final RestTemplate restTemplate;
+
+    public CoolCarController(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     private Collection<Car> fallback() {
         return new ArrayList<>();
@@ -27,8 +33,7 @@ public class CoolCarController {
     @HystrixCommand(fallbackMethod = "fallback")
     public Collection<Car> goodCars() {
 
-        RestTemplate restTemplate = new RestTemplate();
-        Car[] forObject = restTemplate.getForObject("http://localhost:8081/v1/cars", Car[].class);
+        Car[] forObject = restTemplate.getForObject("http://car-service/v1/cars", Car[].class);
 
         return Arrays.stream(forObject)
                 .filter(this::isCool)
