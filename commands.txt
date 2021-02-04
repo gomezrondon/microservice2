@@ -36,3 +36,6 @@ gradle loadTarImage   (es todo!!!)
 http://192.168.99.100:8080/v2/cool-cars
 ---------- spring boot 2.3 with leyering
 1) generate the image: gradle clean bootBuildImage
+
+----------------
+gradle wrapper --gradle-version 6.8.1 --distribution-type all
