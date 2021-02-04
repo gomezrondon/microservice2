@@ -3,6 +3,7 @@ package com.gomezrondon.carservice.controller;
 
 import com.gomezrondon.carservice.entities.Car;
 import com.gomezrondon.carservice.repositories.CarRepository;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,12 @@ public class CarController {
 
 
     @GetMapping("/cars")
-    public ResponseEntity<List<Car>> getAllCars() {
+    public ResponseEntity<List<Car>> getAllCars() throws Exception {
         List<Car> list = repository.findAll();
+
+        if (list.isEmpty())
+            throw new Exception("Empty list of CARS");
+
 
         return new ResponseEntity<>(list, HttpStatus.OK);
     }

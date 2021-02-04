@@ -20,6 +20,8 @@ public class CarApplication {
 
 	@Bean
 	ApplicationRunner init(CarRepository repository) {
+	//	return args -> {};
+
 		return args -> {
 			Stream.of("Ferrari", "Jaguar", "Porsche", "Lamborghini", "Bugatti",
 					"AMC Gremlin", "Triumph Stag", "Ford Pinto", "Yugo GV").map(String::trim).map(Car::new).forEach(repository::save);
