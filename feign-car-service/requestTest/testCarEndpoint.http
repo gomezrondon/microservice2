@@ -1,6 +1,9 @@
 
+### from car service
+http://localhost:8081/v1/cars
 
-GET http://localhost:8080/cool-cars
+### feign Service
+GET http://localhost:8082/cool-cars
 
 ###
 
